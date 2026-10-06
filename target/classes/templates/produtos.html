@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Controle de Estoque - Cantina IFRN</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body class="container mt-4">
+
+    <h2>Cadastrar Novo Produto</h2>
+    
+    <form th:action="@{/produtos/salvar}" th:object="${produto}" method="post" class="mb-5 card p-4 bg-light">
+        <div class="mb-3">
+            <label class="form-label">Nome do Produto:</label>
+            <input type="text" th:field="*{nome}" class="form-control" required />
+        </div>
+        
+        <div class="mb-3">
+            <label class="form-label">Descrição:</label>
+            <textarea th:field="*{descricao}" class="form-control" rows="3" required></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Salvar Produto</button>
+    </form>
+
+    <hr>
+
+    <h2>Lista de Produtos Cadastrados</h2>
+    
+    <table class="table table-striped table-bordered mt-3">
+        <thead class="table-dark">
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Data de Cadastro</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="prod : ${produtos}">
+                <td th:text="${prod.id}">1</td>
+                <td th:text="${prod.nome}">Salgado</td>
+                <td th:text="${prod.descricao}">Coxinha de frango</td>
+                <td th:text="${#temporals.format(prod.dataCadastro, 'dd/MM/yyyy HH:mm:ss')}">01/01/2026 10:00:00</td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(produtos)}">
+                <td colspan="4" class="text-center">Nenhum produto cadastrado.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
